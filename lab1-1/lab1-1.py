@@ -22,9 +22,9 @@ class MotionDetect(object):
         super(MotionDetect, self).__init__()
 
         self.shape = shape
-        self.avg_map = np.zeros(self.shape, dtype='float')
-        self.alpha = 0.1
-        self.threshold = 5
+        self.avg_map = np.zeros((self.shape[0], self.shape[1]), dtype='float')
+        self.alpha = 0.8 # you can ajust your value
+        self.threshold = 40 # you can ajust your value
 
         print("MotionDetect init with shape {}".format(self.shape))
 
@@ -100,7 +100,7 @@ fourcc = cv2.VideoWriter_fourcc(*'XVID')
 out = cv2.VideoWriter('output1.avi', fourcc, fps, (w, h), True)
 
 # Motion detector
-mt = MotionDetect(shape=(h,w))
+mt = MotionDetect(shape=(h,w,3))
 
 # Read video frame by frame
 while True:
@@ -108,8 +108,7 @@ while True:
     success, frame = cap.read()
 
     if success:
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        motion_map = mt.getMotion(gray)
+        motion_map = mt.getMotion(frame)
 
         # Write 1 frame to output video
         out.write(motion_map)

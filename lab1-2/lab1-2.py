@@ -36,13 +36,15 @@ name = "../data.mp4"
 cap = cv2.VideoCapture(name)
 success, frame = cap.read()
 if success:
-    print("Success reading 1 frame from {}".fromat(name))
+    print("Success reading 1 frame from {}".format(name))
 else:
-    print("Faild to read 1 frame from {}".fromat(name))
+    print("Faild to read 1 frame from {}".format(name))
 cap.release()
 
-img_g1 = gammaCorrection(fram, 0.5)
-img_g2 = gammaCorrection(frame, 2)
+gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+img_g1 = gammaCorrection(gray, 0.5)
+img_g2 = gammaCorrection(gray, 2)
+cv2.imwrite('gray.png', gray)
 cv2.imwrite('data_g0.5.png', img_g1)
 cv2.imwrite('data_g2.png', img_g2)
 
